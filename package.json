@@ -1,0 +1,16 @@
+{
+  "name": "rest",
+  "version": "1.0.0",
+  "description": "hometask",
+  "main": "main.js",
+  "scripts": {
+    "test": "node main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "deep-diff": "^0.3.8",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
+  }
+}
