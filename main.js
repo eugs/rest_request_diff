@@ -1,44 +1,30 @@
 var request = require('request-promise');
 var diff = require('deep-diff').diff;
 
-function sendRequestWithHeader(URI, method, header) {
-  var options = {
-    uri: URI,
-    method: method,
-    headers: header,
-    resolveWithFullResponse: true //!!!!
-  };
-
-  return request(options).then(function (response) {
-    // console.log("inner resp", response);
-    return response;
-  });
-};
-
 var URL = 'https://jsonplaceholder.typicode.com/users/';
-var HEADER = {
-  // 'Accept-Language': 'en_GB',
-  // 'Client-ID': 'AEM',
-  // 'User-Agent': 'chrome'
-};
 
-sendRequestWithHeader(URL, 'GET', HEADER).then(function (response) {
-  // console.log("response:", response.headers);
+// TEST
 
-  var statusCode = response.statusCode;
-  var arr = JSON.parse(response.body);
-  var type = response.headers['content-type'];
+  sendRequestWithHeader(URL, 'GET', {}).then(function (response) {
+    console.log('\nCheck status code');
+      var statusCode = response.statusCode;
+      assertEquals(2004, statusCode, 'Status code is wrong')
+  });
 
-  // console.log("headers", response.headers);
-  console.log('length:', arr.length);
-  console.log("status code:", statusCode);
-  console.log("type:", type);
+  sendRequestWithHeader(URL, 'GET', {}).then(function (response) {
+    console.log('\nCheck type');
+    var type = response.headers['content-type'];
+    assertEquals('application/json; charset=utf-8', type, 'Wrong type')
+  });
 
-  assertEquals(200, statusCode, 'Status code is wrong')
-  assertEquals('application/json; charset=utf-8', type, 'Wrong type')
-  assertEquals(10, arr.length, 'Wrong array length')
+  sendRequestWithHeader(URL, 'GET', {}).then(function (response) {
+    console.log('\nCheck length');
+    var arr = JSON.parse(response.body);
+    assertEquals(10, arr.length, 'Wrong array length')
+  });
 
-});
+
+// FUNCTIONS
 
 function assertEquals(expected, actual, msg) {
   var differencies = diff(expected, actual);
@@ -48,5 +34,18 @@ function assertEquals(expected, actual, msg) {
   } else {
     console.log('assertion succeded:', actual);
   }
-
 }
+
+function sendRequestWithHeader(URI, method, header) {
+  
+  var options = {
+      uri: URI,
+      method: method,
+      headers: header,
+      resolveWithFullResponse: true //!!!!
+  };
+
+  return request(options).then(function (response) {
+    return response;
+  });
+};
