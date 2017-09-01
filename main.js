@@ -29,24 +29,24 @@ sendRequestWithHeader(URL, 'GET', HEADER).then(function (response) {
   var arr = JSON.parse(response.body);
   var type = response.headers['content-type'];
 
-  console.log("headers", response.headers);
-  console.log('length', arr.length);
+  // console.log("headers", response.headers);
+  console.log('length:', arr.length);
   console.log("status code:", statusCode);
   console.log("type:", type);
 
-  // Object.getOwnPropertyNames(string).forEach(
-  //   function (val, idx, array) {
-  //     console.log(val + ' -> ' + string[val]);
-  //   }
-  // );
-
-  // var differencies = diff(JSON.stringify(person), response);
-  //
-  // if(differencies !== undefined) {
-  //   var errMsg = 'The two JSON do not match!\n' + JSON.stringify(differencies, null, ' ');
-  //   throw new Error (errMsg);
-  // } else {
-  //   console.log('JSON comparison succeed');
-  // }
+  assertEquals(200, statusCode, 'Status code is wrong')
+  assertEquals('application/json; charset=utf-8', type, 'Wrong type')
+  assertEquals(10, arr.length, 'Wrong array length')
 
 });
+
+function assertEquals(expected, actual, msg) {
+  var differencies = diff(expected, actual);
+
+  if(differencies !== undefined) {
+    throw new Error (msg + '\n' + JSON.stringify(differencies, null, ' '));
+  } else {
+    console.log('assertion succeded:', actual);
+  }
+
+}
