@@ -8,7 +8,7 @@ var URL = 'https://jsonplaceholder.typicode.com/users/';
   sendRequestWithHeader(URL, 'GET', {}).then(function (response) {
     console.log('\nCheck status code');
       var statusCode = response.statusCode;
-      assertEquals(2004, statusCode, 'Status code is wrong')
+      assertEquals(200, statusCode, 'Status code is wrong')
   });
 
   sendRequestWithHeader(URL, 'GET', {}).then(function (response) {
@@ -37,7 +37,7 @@ function assertEquals(expected, actual, msg) {
 }
 
 function sendRequestWithHeader(URI, method, header) {
-  
+
   var options = {
       uri: URI,
       method: method,
